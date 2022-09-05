@@ -1,37 +1,37 @@
 <template>
   <div class="q-pa-md">
 
-    <q-toolbar class="bg-primary text-white q-my-md shadow-2" style="background-color: grey !important;">
+    <q-toolbar class="bg-primary text-white q-my-md shadow-2" style="background-color: #181414 !important;">
 
       <q-btn flat @click="drawers()" round dense icon="menu"/>
 
       <q-separator dark vertical inset/>
 
       <q-btn flat label="Stealth Connect" @click="mainPage()"/>
-      <q-btn icon="local_fire_department"
-             class="q-mr-sm"
-             color="orange"
-             flat round dense
-             @click="launchFleet"
-             size="xs"
-      >
-        <q-tooltip
-            content-class="bg-grey"
-            content-style="font-size: 16px"
-            :offset="[10, 10]"
-        >
-          Enable Drones
-        </q-tooltip>
-      </q-btn>
+      <!--      <q-btn icon="local_fire_department"-->
+      <!--             class="q-mr-sm"-->
+      <!--             color="orange"-->
+      <!--             flat round dense-->
+      <!--             @click="launchFleet"-->
+      <!--             size="xs"-->
+      <!--      >-->
+      <!--&lt;!&ndash;        <q-tooltip&ndash;&gt;-->
+      <!--&lt;!&ndash;            content-class="bg-grey"&ndash;&gt;-->
+      <!--&lt;!&ndash;            content-style="font-size: 16px"&ndash;&gt;-->
+      <!--&lt;!&ndash;            :offset="[10, 10]"&ndash;&gt;-->
+      <!--&lt;!&ndash;        >&ndash;&gt;-->
+      <!--&lt;!&ndash;          Enable Drones&ndash;&gt;-->
+      <!--&lt;!&ndash;        </q-tooltip>&ndash;&gt;-->
+      <!--      </q-btn>-->
 
-      <q-separator dark vertical/>
-      <div v-for="item of menuItems" :key="item.label">
-        <q-btn stretch flat
-               :icon="item.icon"
-               :label="item.label"
-               :to="item.page"
-        />
-      </div>
+      <!--      <q-separator dark vertical/>-->
+      <!--      <div v-for="item of menuItems" :key="item.label">-->
+      <!--        <q-btn stretch flat-->
+      <!--               :icon="item.icon"-->
+      <!--               :label="item.label"-->
+      <!--               :to="item.page"-->
+      <!--        />-->
+      <!--      </div>-->
 
       <q-space/>
 
@@ -40,12 +40,10 @@
         as child of QToolbar
       -->
 
-      <q-separator dark vertical inset/>
+      <q-separator/>
 
       <q-btn-dropdown
-          color="grey"
-          push
-          no-caps>
+          flat>
         <template v-slot:label>
           <div class="row items-center no-wrap">
             <q-icon left name="person"/>
@@ -55,21 +53,21 @@
           </div>
         </template>
         <q-list>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
             <q-item-section @click="profileClick()">
               <q-icon left name="person"/>
               <q-item-label>Profile</q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
             <q-item-section>
               <q-icon left name="settings"/>
               <q-item-label>Settings</q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-close-popup @click="signOut()">
+          <q-item clickable v-close-popup @click="signOut()" style="background-color: grey !important; color: #fff">
             <q-item-section>
               <q-icon left name="exit_to_app"/>
               <q-item-label>Logout</q-item-label>
@@ -78,25 +76,29 @@
         </q-list>
       </q-btn-dropdown>
     </q-toolbar>
-    <q-layout view="hHh Lpr lff" container style="height: 850px" class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black">
+    <q-layout view="hHh Lpr lff" container style="height: 850px; border-color: #181414 !important;"
+              class="shadow-2 rounded-borders">
+      <q-header elevated class="bg-black" style="border-color: #181414 !important;">
         <q-drawer
             v-model="drawer"
             show-if-above
             :width="200"
             :breakpoint="500"
-            bordered
+            :mini="miniState"
+            @mouseover="miniState = false"
+            @mouseout="miniState = true"
             content-class="bg-grey-3"
         >
-          <q-scroll-area class="fit">
-            <q-list>
+          <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
+            <q-list padding>
 
               <template v-for="(menuItem, index) in menuList">
-                <q-item :key="index" clickable :active="menuItem.label === 'Outbox'" v-ripple>
+                <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple @click="itemClicked(menuItem.label)">
                   <q-item-section avatar>
-                    <q-icon :name="menuItem.icon"></q-icon>
+                    <q-icon :name="menuItem.icon"
+                            style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
                   </q-item-section>
-                  <q-item-section>
+                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px">
                     {{ menuItem.label }}
                   </q-item-section>
                 </q-item>
@@ -132,41 +134,20 @@ export default {
       photo: "",
       menuList: [
         {
-          icon: '',
-          label: 'Item 1',
-          separator: true
-        },
-        {
-          icon: '',
-          label: 'Item 2',
+          icon: 'home',
+          label: 'Home',
           separator: false
         },
         {
-          icon: '',
-          label: 'Item 3',
+          icon: 'person_add',
+          label: 'Drone',
           separator: false
         },
         {
-          icon: '',
-          label: 'Item 4',
-          separator: true
-        },
-        {
-          icon: '',
-          label: 'Item 5',
+          icon: 'local_shipping',
+          label: 'Track',
           separator: false
         },
-        {
-          icon: '',
-          label: 'Item 5',
-          separator: false
-        },
-        {
-          icon: '',
-          iconColor: 'primary',
-          label: 'Item 6',
-          separator: false
-        }
       ],
       drawer: false,
       menuItems: [
@@ -191,18 +172,27 @@ export default {
   setup() {
     return {
       drawerLeft: ref(false),
-      drawerRight: ref(false)
+      drawerRight: ref(false),
+      miniState: ref(true)
     }
   },
   methods: {
     mainPage() {
       this.$router.push('/')
     },
+    itemClicked (item) {
+      if(item === 'Home'){
+        this.$router.push('/')
+      }
+      else if(item === 'Drone'){
+        console.log('Drone')
+      }
+      else if (item === 'Track'){
+        console.log('Track')
+      }
+    },
     drawers() {
-      console.log(this.drawer, "drawer Before")
-
       this.drawer = !this.drawer
-      console.log(this.drawer, "drawer After")
     },
     profileClick() {
       this.$router.push('/profile')

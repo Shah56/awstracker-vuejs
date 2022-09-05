@@ -1,8 +1,8 @@
 <template>
   <q-layout>
     <q-page-container>
-      <q-banner v-if="!$q.platform.is.mobile" inline-actions class="bg-grey-3">
-        <p style="font-size: 30px; padding-top: 15px; font-weight: bold; float: left">TOMSHAW</p>
+      <q-banner v-if="!$q.platform.is.mobile" inline-actions class="bg-grey-3 themeColor">
+        <p class="topNavHeading">TOMSHAW</p>
         <q-btn class="homeBtn">
           Home
         </q-btn>
@@ -190,6 +190,20 @@ export default {
   padding-right: 20px;
   font-size: 18px;
   margin-left: 20px;
-  margin-top: 17px
+  margin-top: 17px;
+  color: white;
 }
+
+.themeColor {
+  background-color: #181414 !important;
+}
+
+.topNavHeading {
+  font-size: 30px;
+  padding-top: 15px;
+  font-weight: bold;
+  float: left;
+  color: white
+}
+
 </style>
