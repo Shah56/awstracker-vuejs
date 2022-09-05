@@ -8,7 +8,7 @@
     import maplibregl from 'maplibre-gl'
     import { Auth} from 'aws-amplify'
     import { Signer } from "@aws-amplify/core";
-    import awsconfig from '../aws-exports'
+    import awsconfig from '../../aws-exports'
 
     export default {
         name: 'MapPane',
