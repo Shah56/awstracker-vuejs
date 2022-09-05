@@ -7,7 +7,7 @@
 <script>
 import { mapGetters } from "vuex";
 import { Auth } from "aws-amplify";
-import Map from '../components/Map'
+import Map from '../components/Map2'
 // import AppUserMenu from "@/components/AppUserMenu";
 
 export default {
