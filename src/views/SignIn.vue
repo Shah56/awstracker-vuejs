@@ -3,17 +3,18 @@
     <!-- <q-card square class="shadow-24" style="width:300px;height:485px;"> -->
     <div class="stealthMain">
       <div class="stealthLeft">
-        <h2 style="font-family: 'Agency Gothic CT Bold'; margin-bottom: 0px; font-size: 70px; font-weight: 500">STEALTH CONNECT</h2>
-        <h5 style="font-family: 'arial'; margin-top: 10px; font-size: 1.75rem;">Cyber Security Portal</h5>
-        <p style="font-size: 1.25rem">Introducing TOM SHAW’s latest creation: Stealth Connect. <br/> A two-part cyber-security world-first protecting
+        <h2 class="stealthHeading">STEALTH CONNECT</h2>
+        <h5 style="font-family: 'arial'; margin-top: 10px; font-size: 1.75rem; color: white">Cyber Security Portal</h5>
+        <p style="font-size: 1.25rem; color: white">Introducing TOM SHAW’s latest creation: Stealth Connect. <br/> A
+          two-part cyber-security world-first protecting
           governments <br/> and enterprises from the end point to the board room.</p>
       </div>
       <div class="stealthRight">
         <q-card-section style="margin-bottom: 20px">
-            <h4 class="text-h4 text-center q-my-sm">Login Your Account</h4>
-          </q-card-section>
+          <h4 class="text-h4 text-center q-my-sm" style="color: white">Login Your Account</h4>
+        </q-card-section>
 
-        <q-card square class="shadow-24" style="width:100%;padding: 50px 30px;">
+        <q-card square class="shadow-24" style="width:100%;padding: 50px 30px; background-color: #181414 !important;">
 
           <q-card-section>
             <q-form>
@@ -27,7 +28,7 @@
                   :error="$v.form.username.$error"
               >
                 <template v-slot:prepend>
-                  <q-icon name="email"/>
+                  <q-icon name="email" style="color: white"/>
                 </template>
               </q-input>
               <q-input
@@ -41,7 +42,7 @@
                   :error="$v.form.password.$error"
               >
                 <template v-slot:prepend>
-                  <q-icon name="lock"/>
+                  <q-icon name="lock" style="color: white"/>
                 </template>
               </q-input>
             </q-form>
@@ -64,9 +65,9 @@
             >Sign Up</p>
           </q-card-actions>
           <q-card-section class="text-center q-pa-sm">
-            <q-btn flat size="sm" @click="forgotPassword" color="black" label="Forgot you password?"/>
-<!--            <q-separator/>-->
-<!--            <q-btn flat size="sm" @click="signUp" color="black" label="Don't have an account? Sign Up here!"/>-->
+            <q-btn flat size="sm" @click="forgotPassword" color="white" label="Forgot you password?"/>
+            <!--            <q-separator/>-->
+            <!--            <q-btn flat size="sm" @click="signUp" color="black" label="Don't have an account? Sign Up here!"/>-->
           </q-card-section>
         </q-card>
       </div>
@@ -149,7 +150,7 @@ export default {
   width: 50%;
 }
 
-.inputText{
+.inputText {
   font-size: 32px;
 }
 
@@ -157,10 +158,19 @@ export default {
   width: 35%;
 }
 
-.signUp{
+.signUp {
   font-size: 20px;
   margin-left: 30px;
   margin-top: 10px;
   cursor: pointer;
+  color: white;
+}
+
+.stealthHeading {
+  font-family: 'Agency Gothic CT Bold';
+  margin-bottom: 0px;
+  font-size: 70px;
+  font-weight: 500;
+  color: white
 }
 </style>
