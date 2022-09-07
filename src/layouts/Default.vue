@@ -474,16 +474,8 @@ export default {
   text-decoration: underline;
 }
 
-.checkbox > input:checked + span::before {
-  content: ‘\2713’;
-  display: block;
-  border-color: black;
-  text-align: center;
-  color: rgb(10, 130, 180);
-  position: absolute;
-  left: 0.12rem;
-  top: -0.5rem;
-  font-size: 1.7rem;
+input[type='checkbox'] {
+  accent-color: grey;
 }
 
 </style>
