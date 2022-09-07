@@ -7,7 +7,7 @@
 
       <!--      <q-separator dark vertical inset/>-->
 
-<!--      <q-btn flat label="Stealth Connect" @click="mainPage()"/>-->
+      <!--      <q-btn flat label="Stealth Connect" @click="mainPage()"/>-->
       <!--      <q-btn icon="local_fire_department"-->
       <!--             class="q-mr-sm"-->
       <!--             color="orange"-->
@@ -85,8 +85,8 @@
             :width="300"
             :breakpoint="500"
             :mini="miniState"
-            @mouseover="miniState = false"
-            @mouseout="miniState = true"
+            @mouseover="mouseOver()"
+            @mouseout="mouseOut()"
             content-class="bg-grey-3"
         >
           <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
@@ -101,6 +101,10 @@
                   <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 28px">
                     Stealth Connect
                   </q-item-section>
+                  <q-item-section style="float: right; margin-left: 25px; margin-top: 8px">
+                    <input type="checkbox" id="toggler" @change="stateDrawerManage()"/>
+                    <span class="checkmark"></span>
+                  </q-item-section>
                 </q-item>
               </template>
 
@@ -111,7 +115,7 @@
                     <q-icon :name="menuItem.icon"
                             style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
                   </q-item-section>
-                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px">
+                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 45px">
                     {{ menuItem.label }}
                   </q-item-section>
                 </q-item>
@@ -148,6 +152,7 @@ export default {
   data() {
     return {
       photo: "",
+      checkState: true,
       menuList: [
         {
           icon: 'home',
@@ -189,12 +194,41 @@ export default {
     return {
       drawerLeft: ref(false),
       drawerRight: ref(false),
-      miniState: ref(true)
+      miniState: ref(false)
     }
+  },
+  mounted() {
+    document.getElementById('toggler').checked = true
   },
   methods: {
     mainPage() {
       this.$router.push('/')
+    },
+    mouseOver() {
+      if (this.miniState === false && this.checkState === true) {
+        this.miniState = false
+      } else if (this.miniState === true && this.checkState === false) {
+        this.miniState = false
+      }
+    },
+    mouseOut() {
+      if (this.checkState === true) {
+        this.miniState = false
+      } else if (this.checkState === false && this.miniState === false) {
+        this.miniState = true
+      }
+    },
+    stateDrawerManage() {
+      var elm = document.getElementById('toggler');
+      // elm.checked = !elm.checked;
+      if (elm.checked === true) {
+        this.miniState = false
+        this.checkState = true
+      } else {
+        this.miniState = true
+        this.checkState = false
+      }
+      console.log(this.miniState, "element")
     },
     itemClicked(item) {
       if (item === 'Home') {
@@ -439,4 +473,17 @@ export default {
 .underline {
   text-decoration: underline;
 }
+
+.checkbox > input:checked + span::before {
+  content: ‘\2713’;
+  display: block;
+  border-color: black;
+  text-align: center;
+  color: rgb(10, 130, 180);
+  position: absolute;
+  left: 0.12rem;
+  top: -0.5rem;
+  font-size: 1.7rem;
+}
+
 </style>
