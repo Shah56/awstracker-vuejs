@@ -3,11 +3,11 @@
 
     <q-toolbar class="bg-primary text-white q-my-md shadow-2" style="background-color: #181414 !important;">
 
-      <q-btn flat @click="drawers()" round dense icon="menu"/>
+      <!--      <q-btn flat @click="drawers()" round dense icon="menu"/>-->
 
-      <q-separator dark vertical inset/>
+      <!--      <q-separator dark vertical inset/>-->
 
-      <q-btn flat label="Stealth Connect" @click="mainPage()"/>
+<!--      <q-btn flat label="Stealth Connect" @click="mainPage()"/>-->
       <!--      <q-btn icon="local_fire_department"-->
       <!--             class="q-mr-sm"-->
       <!--             color="orange"-->
@@ -43,7 +43,7 @@
       <q-separator/>
 
       <q-btn-dropdown
-          flat>
+          flat style="float: left">
         <template v-slot:label>
           <div class="row items-center no-wrap">
             <q-icon left name="person"/>
@@ -76,13 +76,13 @@
         </q-list>
       </q-btn-dropdown>
     </q-toolbar>
-    <q-layout view="hHh Lpr lff" container style="height: 850px; border-color: #181414 !important;"
+    <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important; margin-top: -20px"
               class="shadow-2 rounded-borders">
       <q-header elevated class="bg-black" style="border-color: #181414 !important;">
         <q-drawer
             v-model="drawer"
             show-if-above
-            :width="200"
+            :width="300"
             :breakpoint="500"
             :mini="miniState"
             @mouseover="miniState = false"
@@ -90,10 +90,23 @@
             content-class="bg-grey-3"
         >
           <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
+
             <q-list padding>
 
+              <template>
+                <q-item v-ripple style="margin-left: 15px; cursor:pointer;">
+                  <q-item-section avatar>
+                    <img src="../assets/TS.png" alt="" style="width: 30px; height: 30px;"/>
+                  </q-item-section>
+                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 28px">
+                    Stealth Connect
+                  </q-item-section>
+                </q-item>
+              </template>
+
               <template v-for="(menuItem, index) in menuList">
-                <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple @click="itemClicked(menuItem.label)">
+                <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple
+                        @click="itemClicked(menuItem.label)">
                   <q-item-section avatar>
                     <q-icon :name="menuItem.icon"
                             style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
@@ -109,7 +122,7 @@
           </q-scroll-area>
         </q-drawer>
       </q-header>
-      <q-page-container>
+      <q-page-container style="margin-top: 0px">
 
         <router-view/>
       </q-page-container>
@@ -121,12 +134,15 @@
 import {mapState, mapGetters} from "vuex";
 import {Auth} from "aws-amplify";
 import {ref} from 'vue'
+import logo2 from '../assets/logo2.png'
 // import leftDrawer from "@/components/LeftDrawer";
 
 export default {
   name: "default-layout",
   components: {
     // leftDrawer
+    // eslint-disable-next-line vue/no-unused-components
+    logo2
   },
 
   data() {
@@ -180,14 +196,12 @@ export default {
     mainPage() {
       this.$router.push('/')
     },
-    itemClicked (item) {
-      if(item === 'Home'){
+    itemClicked(item) {
+      if (item === 'Home') {
         this.$router.push('/')
-      }
-      else if(item === 'Drone'){
+      } else if (item === 'Drone') {
         console.log('Drone')
-      }
-      else if (item === 'Track'){
+      } else if (item === 'Track') {
         console.log('Track')
       }
     },

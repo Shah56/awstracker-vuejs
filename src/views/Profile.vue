@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div style="margin-left: 30px; color: white">
+    <div style="margin-left: 30px; color: black">
       <h2>User Info</h2>
       <p>{{ this.user.attributes.email }}</p>
       <p>{{ this.user.attributes.given_name }}</p>

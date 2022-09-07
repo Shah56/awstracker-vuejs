@@ -1,5 +1,5 @@
 <template>
-  <div class="column justify-center q-pa-lg forPadding">
+  <div class="column justify-center q-pa-lg forPadding" style="background-color: #181414">
     <!-- <q-card square class="shadow-24" style="width:300px;height:485px;"> -->
     <div class="stealthMain">
       <div class="stealthLeft">
@@ -20,7 +20,10 @@
             <q-form>
               <q-input
                   square outlined
-                  clearable
+                  color="white"
+                  dark
+                  label-color="grey"
+                  bg-color="transparent"
                   v-model.trim="form.username"
                   label="Email"
                   @blur="$v.form.username.$touch"
@@ -30,12 +33,22 @@
                 <template v-slot:prepend>
                   <q-icon name="email" style="color: white"/>
                 </template>
+                <template v-slot:append>
+                  <q-icon name="cancel" @click.stop.prevent="form.username = null" class="cursor-pointer"
+                          style="color: white"/>
+                </template>
               </q-input>
               <q-input
                   square outlined
-                  clearable
+                  color="white"
+                  dark
+                  label-color='grey'
+                  standout
+                  bottom-slots
+                  bg-color="transparent"
                   v-model="form.password"
                   type="password"
+                  :dense="dense"
                   label="Password"
                   error-message="Password Invalid"
                   @blur="$v.form.password.$touch"
@@ -43,6 +56,13 @@
               >
                 <template v-slot:prepend>
                   <q-icon name="lock" style="color: white"/>
+                </template>
+                <template v-slot:append>
+                  <q-icon name="cancel" @click.stop.prevent="form.password = null" class="cursor-pointer"
+                          style="color: white"/>
+                </template>
+                <template v-slot:hint>
+                  Email
                 </template>
               </q-input>
             </q-form>
@@ -81,6 +101,7 @@
 import {Auth} from "aws-amplify";
 import {AmplifyEventBus} from "aws-amplify-vue";
 import {required, email} from 'vuelidate/lib/validators';
+import {ref} from "vue";
 
 export default {
   name: "SignIn",
@@ -89,6 +110,11 @@ export default {
    */
   props: {
     redirectTo: String
+  },
+  setup() {
+    return {
+      dense: ref(false)
+    }
   },
   data() {
     return {
@@ -163,6 +189,10 @@ export default {
   margin-left: 30px;
   margin-top: 10px;
   cursor: pointer;
+  color: white;
+}
+
+.inputValColor {
   color: white;
 }
 
