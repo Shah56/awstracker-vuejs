@@ -1,13 +1,13 @@
 <template>
   <div class="q-pa-md">
 
-    <q-toolbar class="bg-primary text-white q-my-md shadow-2" style="background-color: #181414 !important;">
+    <q-toolbar class="bg-primary text-white q-my-md" style="background-color: #181414 !important;">
 
       <!--      <q-btn flat @click="drawers()" round dense icon="menu"/>-->
 
       <!--      <q-separator dark vertical inset/>-->
 
-<!--      <q-btn flat label="Stealth Connect" @click="mainPage()"/>-->
+      <!--      <q-btn flat label="Stealth Connect" @click="mainPage()"/>-->
       <!--      <q-btn icon="local_fire_department"-->
       <!--             class="q-mr-sm"-->
       <!--             color="orange"-->
@@ -76,57 +76,76 @@
         </q-list>
       </q-btn-dropdown>
     </q-toolbar>
-    <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important; margin-top: -20px"
-              class="shadow-2 rounded-borders">
-      <q-header elevated class="bg-black" style="border-color: #181414 !important;">
-        <q-drawer
-            v-model="drawer"
-            show-if-above
-            :width="300"
-            :breakpoint="500"
-            :mini="miniState"
-            @mouseover="miniState = false"
-            @mouseout="miniState = true"
-            content-class="bg-grey-3"
-        >
-          <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
+    <!--  For Side Bar -->
+    <div class="forSideBar" id="forSideBar">
+      <q-layout view="lHh Lpr lff" container style="height: 896px; border-color: #181414 !important; margin-top: -20px"
+                class=" rounded-borders">
+        <q-header elevated class="bg-black" style="border-color: #181414 !important;">
+          <q-drawer
+              v-model="drawer"
+              show-if-above
+              :width="300"
+              :breakpoint="55"
+              :mini="miniState"
+              @mouseover="mouseOver()"
+              @mouseout="mouseOut()"
+              content-class="bg-grey-3" class="sideBarDrawer"
+          >
+            <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
 
-            <q-list padding>
+              <q-list padding>
 
-              <template>
-                <q-item v-ripple style="margin-left: 15px; cursor:pointer;">
-                  <q-item-section avatar>
-                    <img src="../assets/TS.png" alt="" style="width: 30px; height: 30px;"/>
-                  </q-item-section>
-                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 28px">
-                    Stealth Connect
-                  </q-item-section>
-                </q-item>
-              </template>
+                <template>
+                  <q-item v-ripple style="margin-left: 15px; cursor:pointer;">
+                    <q-item-section avatar>
+                      <img src="../assets/TS.png" alt="" style="width: 30px; height: 30px;"/>
+                    </q-item-section>
+                    <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 28px">
+                      Stealth Connect
+                    </q-item-section>
+                    <q-item-section style="float: right; margin-left: 25px; margin-top: 8px">
+                      <input type="checkbox" id="toggler" @change="stateDrawerManage()"/>
+                      <span class="checkmark"></span>
+                    </q-item-section>
+                  </q-item>
+                </template>
 
-              <template v-for="(menuItem, index) in menuList">
-                <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple
-                        @click="itemClicked(menuItem.label)">
-                  <q-item-section avatar>
-                    <q-icon :name="menuItem.icon"
-                            style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
-                  </q-item-section>
-                  <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px">
-                    {{ menuItem.label }}
-                  </q-item-section>
-                </q-item>
-                <q-separator :key="'sep' + index" v-if="menuItem.separator"></q-separator>
-              </template>
+                <template v-for="(menuItem, index) in menuList">
+                  <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple
+                          @click="itemClicked(menuItem.label)">
+                    <q-item-section avatar>
+                      <q-icon :name="menuItem.icon"
+                              style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
+                    </q-item-section>
+                    <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 45px">
+                      {{ menuItem.label }}
+                    </q-item-section>
+                  </q-item>
+                  <q-separator :key="'sep' + index" v-if="menuItem.separator"></q-separator>
+                </template>
 
-            </q-list>
-          </q-scroll-area>
-        </q-drawer>
-      </q-header>
-      <q-page-container style="margin-top: 0px">
+              </q-list>
+            </q-scroll-area>
+          </q-drawer>
+        </q-header>
+<!--        <q-page-container style="margin-top: 0px">-->
 
-        <router-view/>
-      </q-page-container>
-    </q-layout>
+<!--          <router-view/>-->
+<!--        </q-page-container>-->
+      </q-layout>
+
+    </div>
+    <div class="forContent z-max" id="forContent">
+      <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important; margin-top: -20px"
+                class="shadow-2 rounded-borders">
+        <q-page-container style="margin-top: 0px">
+
+          <router-view/>
+        </q-page-container>
+      </q-layout>
+
+    </div>
+
   </div>
 </template>
 
@@ -148,6 +167,7 @@ export default {
   data() {
     return {
       photo: "",
+      checkState: true,
       menuList: [
         {
           icon: 'home',
@@ -189,18 +209,59 @@ export default {
     return {
       drawerLeft: ref(false),
       drawerRight: ref(false),
-      miniState: ref(true)
+      miniState: ref(false)
     }
+  },
+  mounted() {
+    document.getElementById('toggler').checked = true
+    const fc = document.getElementById('forContent')
+    fc.style.paddingLeft = '301px'
   },
   methods: {
     mainPage() {
       this.$router.push('/')
     },
+    mouseOver() {
+      const fc = document.getElementById('forContent')
+      fc.style.paddingLeft = '301px'
+      if (this.miniState === false && this.checkState === true) {
+        this.miniState = false
+      } else if (this.miniState === true && this.checkState === false) {
+        this.miniState = false
+      }
+    },
+    mouseOut() {
+      const fc = document.getElementById('forContent')
+      const sb = document.getElementById('forSideBar')
+      if (this.checkState === true) {
+        this.miniState = false
+        fc.style.paddingLeft = '301px'
+        sb.style.width = '17.7%'
+      } else if (this.checkState === false && this.miniState === false) {
+        this.miniState = true
+        fc.style.paddingLeft = '55px'
+        sb.style.width = '17.7%'
+      } else {
+        fc.style.paddingLeft = '55px'
+        sb.style.width = '3.7%'
+      }
+    },
+    stateDrawerManage() {
+      var elm = document.getElementById('toggler');
+      // elm.checked = !elm.checked;
+      if (elm.checked === true) {
+        this.miniState = false
+        this.checkState = true
+      } else {
+        this.miniState = true
+        this.checkState = false
+      }
+    },
     itemClicked(item) {
       if (item === 'Home') {
         this.$router.push('/')
       } else if (item === 'Drone') {
-        console.log('Drone')
+        this.launchFleet()
       } else if (item === 'Track') {
         console.log('Track')
       }
@@ -439,4 +500,48 @@ export default {
 .underline {
   text-decoration: underline;
 }
+
+input[type='checkbox'] {
+  accent-color: grey;
+}
+
+/*for side bar fix css */
+
+.forSideBar {
+    position: absolute;
+    top: 52px;
+    left: 15px;
+    z-index: 9999999999999;
+    display: block;
+    min-height: 100vh;
+    height: 100%;
+    /*width: 300px;*/
+      width: 17.7%;
+
+}
+
+.forContent {
+    padding-left: 55px;
+}
+/*.forContent > .mapboxgl-control-container >  maplibregl-ctrl-top-left {*/
+/*    top: 45px;*/
+/*    left: 0;*/
+/*    right: 10px;*/
+/*    left: unset;*/
+/*}*/
+/*.mapboxgl-ctrl-top-left{*/
+/*  top: 45px;*/
+/*    left: 0;*/
+/*    right: 10px;*/
+/*    left: unset;*/
+
+/*}*/
+div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left{
+  top: 45px !important;
+    left: 0 !important;
+    right: 10px !important;
+    left: unset !important;
+
+}
+
 </style>
