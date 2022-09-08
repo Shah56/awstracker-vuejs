@@ -9,6 +9,7 @@
     import { Auth} from 'aws-amplify'
     import { Signer } from "@aws-amplify/core";
     import awsconfig from '../../aws-exports'
+    import location from "aws-sdk/clients/location";
 
     export default {
         name: 'MapPane',
@@ -19,7 +20,15 @@
         },
         mounted: async function () {
             this.credentials = await Auth.currentCredentials()
+            this.locationService = new location({
+              credentials: this.credentials,
+              region: awsconfig.aws_project_region,
+            });
+            console.log("Calling Render Map")
             this.mapCreate();
+            console.log("Calling get Positions")
+            this.getPositions();
+            
         },
         methods: {
             mapCreate: function() {
@@ -50,6 +59,84 @@
                     }
                 }
                 return { url }
+            },
+            batchGetDevicePosition(params) {
+                var vm = this;
+                return new Promise(function(resolve, reject) {
+                    vm.locationService.batchGetDevicePosition(params, function(
+                        err,
+                        data
+                    ) {
+                        if (err) {
+                        console.log(err, err.stack);
+                        reject([]);
+                        } else {
+                        resolve(data.DevicePositions)
+                        }
+                    })
+                })
+            },
+            async getPositions() {
+            console.log("Called get Positions")
+                let devicePositionAll = []
+                var params = {
+                    DeviceIds: ["7028534685"],
+                    TrackerName: "explore.tracker",
+                };
+                   
+                let bathPos = await this.batchGetDevicePosition(params)
+                devicePositionAll.push(bathPos)
+                console.log("Retrieved coords:" + bathPos)        
+                console.log(devicePositionAll)
+                return devicePositionAll;       
+            
+            },
+            pointOnCircle(lng,lat,deviceId,sampleTime) {
+                let name = deviceId
+                let vm = this
+                let color = "#007cbf"
+
+                if (this.map.getLayer(name)) this.map.removeLayer(name);
+                if (this.map.getSource(name)) this.map.removeSource(name);
+                
+                this.map.addSource(name, {
+                    type: 'geojson',
+                    data: {
+                    type: "Point",
+                    coordinates: [lng, lat]
+                    }
+                    });      
+
+                // Add red if timeDiff is X
+                //if (mm >= 10) color = '#ff0000'
+                        
+                this.map.addLayer({
+                    'id': name,
+                    'source': name,
+                    'type': 'circle',
+                    'paint': {
+                    'circle-radius': 10,
+                    'circle-color': color
+                    }
+                    });      
+
+                this.map.on('click', name, function () {
+                    vm.popUps[name]
+                    .setLngLat([lng,lat])
+                    .setHTML(deviceId + " - " + sampleTime)
+                    .addTo(vm.map)
+                });
+
+                // Change the cursor to a pointer when the mouse is over the states layer.
+                this.map.on('mouseenter', name, function () {
+                    vm.map.getCanvas().style.cursor = 'pointer';
+                });
+                
+                // Change it back to a pointer when it leaves.
+                this.map.on('mouseleave', name, function () {
+                    vm.map.getCanvas().style.cursor = '';
+                });
+
             },
         }
     }
