@@ -1,7 +1,6 @@
 <template>
-  <div class="q-pa-md">
-
-    <q-toolbar class="bg-primary text-white q-my-md" style="background-color: #181414 !important;">
+  <div>
+    <q-toolbar class="bg-primary text-white toolbarSpace" style="background-color: #181414 !important; height: 85px;">
 
       <!--      <q-btn flat @click="drawers()" round dense icon="menu"/>-->
 
@@ -112,12 +111,12 @@
 
                 <template v-for="(menuItem, index) in menuList">
                   <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple
-                          @click="itemClicked(menuItem.label)">
+                          @click="itemClicked(menuItem.label)" style="height: 70px">
                     <q-item-section avatar>
                       <q-icon :name="menuItem.icon"
-                              style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 3px; color: white !important;"></q-icon>
+                              style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 12px; color: white !important;"></q-icon>
                     </q-item-section>
-                    <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 45px">
+                    <q-item-section style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-left: 45px; margin-top: 12px">
                       {{ menuItem.label }}
                     </q-item-section>
                   </q-item>
@@ -138,7 +137,7 @@
     <div class="forContent z-max" id="forContent">
       <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important; margin-top: -20px"
                 class="shadow-2 rounded-borders">
-        <q-page-container style="margin-top: 0px">
+        <q-page-container style="margin-top: 20px">
 
           <router-view/>
         </q-page-container>
@@ -510,7 +509,7 @@ input[type='checkbox'] {
 .forSideBar {
     position: absolute;
     top: 52px;
-    left: 15px;
+    left: 0px;
     z-index: 9999999999999;
     display: block;
     min-height: 100vh;
@@ -542,6 +541,10 @@ div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left{
     right: 10px !important;
     left: unset !important;
 
+}
+
+.toolbarSpace{
+  margin-top: 0px;
 }
 
 </style>
