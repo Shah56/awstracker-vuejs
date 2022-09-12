@@ -16,6 +16,7 @@
         data() {
             return {
                 credentials: null,
+                map: null,
             }
         },
         mounted: async function () {
@@ -24,26 +25,30 @@
               credentials: this.credentials,
               region: awsconfig.aws_project_region,
             });
-            console.log("Calling Render Map")
-            this.mapCreate();
-            console.log("Calling get Positions")
-            this.getPositions();
             
+            
+            console.log("Calling get Positions")
+            let trackerInfo = await this.getPositions();
+            console.log("Calling Render Map")
+            await this.mapCreate(trackerInfo[0][0].Position[0],trackerInfo[0][0].Position[1]);
+            console.log("Render Map Call Complete")
+            this.pointOnCircle(trackerInfo[0][0].Position[0],trackerInfo[0][0].Position[1],trackerInfo[0][0].DeviceId,trackerInfo[0][0].SampleTime);
         },
         methods: {
-            mapCreate: function() {
-                const map = new maplibregl.Map({
+            mapCreate: function(lng,lat) {
+                var vm = this;
+                vm.map = new maplibregl.Map({
                     container: 'map',
                     style: 'TrackerMap',
-                    center: [139.7648, 35.6794],
+                    center: [lng,lat],
                     zoom: 15,
                     bearing: 64.8,
-                    pitch: 60,
+                    pitch: 0,
                     hash: true,
                     transformRequest: this.transformRequest,
                 });
 
-                map.addControl(new maplibregl.NavigationControl());
+                vm.map.addControl(new maplibregl.NavigationControl());
             },
             transformRequest: function (url, resourceType) {
                 if (resourceType === 'Style' && !url.includes('://')) {
@@ -91,26 +96,30 @@
                 return devicePositionAll;       
             
             },
-            pointOnCircle(lng,lat,deviceId,sampleTime) {
+            async pointOnCircle(lng,lat,deviceId,sampleTime) {
                 let name = deviceId
                 let vm = this
                 let color = "#007cbf"
-
-                if (this.map.getLayer(name)) this.map.removeLayer(name);
-                if (this.map.getSource(name)) this.map.removeSource(name);
-                
-                this.map.addSource(name, {
+                console.log("called point on circle with info: " + lng + lat + deviceId + sampleTime)
+                //if (this.map.getLayer(name)) this.map.removeLayer(name);
+                //if (this.map.getSource(name)) this.map.removeSource(name);
+                console.log("calling add source")
+                vm.map.on('load', name, function () {
+                    vm.map.addSource(name, {
                     type: 'geojson',
                     data: {
                     type: "Point",
                     coordinates: [lng, lat]
                     }
                     });      
-
+ 
+                });
+               
                 // Add red if timeDiff is X
                 //if (mm >= 10) color = '#ff0000'
-                        
-                this.map.addLayer({
+                console.log("calling add layer")
+                vm.map.on('load', name, function () {
+                    vm.map.addLayer({
                     'id': name,
                     'source': name,
                     'type': 'circle',
@@ -118,9 +127,11 @@
                     'circle-radius': 10,
                     'circle-color': color
                     }
-                    });      
+                    });   
+                });
+                   
 
-                this.map.on('click', name, function () {
+                vm.map.on('click', name, function () {
                     vm.popUps[name]
                     .setLngLat([lng,lat])
                     .setHTML(deviceId + " - " + sampleTime)
@@ -128,12 +139,12 @@
                 });
 
                 // Change the cursor to a pointer when the mouse is over the states layer.
-                this.map.on('mouseenter', name, function () {
+                vm.map.on('mouseenter', name, function () {
                     vm.map.getCanvas().style.cursor = 'pointer';
                 });
                 
                 // Change it back to a pointer when it leaves.
-                this.map.on('mouseleave', name, function () {
+                vm.map.on('mouseleave', name, function () {
                     vm.map.getCanvas().style.cursor = '';
                 });
 
