@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-toolbar class="bg-primary text-white toolbarSpace" style="background-color: #181414 !important; height: 85px;">
+    <q-toolbar class="bg-primary text-white toolbarSpace" style="background-color: #3b2366 !important; height: 60px;">
 
       <!--      <q-btn flat @click="drawers()" round dense icon="menu"/>-->
 
@@ -77,48 +77,48 @@
     </q-toolbar>
     <!--  For Side Bar -->
     <div class="forSideBar" id="forSideBar">
-      <q-layout view="lHh Lpr lff" container style="height: 896px; border-color: #181414 !important; margin-top: -20px"
+      <q-layout view="lHh Lpr lff" container style="height: 896px; border-color: ##171717 !important; margin-top: -55px"
                 class=" rounded-borders">
-        <q-header elevated class="bg-black" style="border-color: #181414 !important;">
+        <q-header elevated class="bg-black" style="border-color: ##171717 !important;">
           <q-drawer
               v-model="drawer"
               show-if-above
-              :width="300"
+              :width="250"
               :breakpoint="55"
               :mini="miniState"
               @mouseover="mouseOver()"
               @mouseout="mouseOut()"
-              content-class="bg-grey-3" class="sideBarDrawer" style="padding-right: 20px!important;"
+              content-class="bg-grey-3" class="sideBarDrawer"
           >
-            <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
+            <q-scroll-area class="fit" style="background-color: #171717 !important; border-color: #171717 !important;">
 
               <q-list padding>
 
                 <template>
-                  <q-item v-ripple style="margin-left: 15px; margin-top: -15px; height: 60px; cursor:pointer;">
+                  <q-item v-ripple style="height: 60px; cursor:pointer;">
                     <q-item-section avatar>
-                      <img src="../assets/TS.png" alt="" style="width: 30px; height: 30px;"/>
+                      <img src="../assets/TS.png" alt="" style="width: 35px; height: 35px;"/>
                     </q-item-section>
-                    <q-item-section style="font-size: 20px; color: #fff; margin-bottom: 10px; margin-left: 28px">
+                    <q-item-section style="font-size: 16px; color: #fff;">
                       Stealth Connect
                     </q-item-section>
-                    <q-item-section style="float: right; margin-left: 25px; margin-top: 8px">
+                    <!-- <q-item-section style="float: right;">
                       <input type="checkbox" id="toggler" @change="stateDrawerManage()"/>
                       <span class="checkmark"></span>
-                    </q-item-section>
+                    </q-item-section> -->
                   </q-item>
                 </template>
 
                 <template v-for="(menuItem, index) in menuList">
                   <q-item :key="index" clickable v-ripple
                           @click="itemClicked(menuItem)" :active="menuItem.check === true" active-class="activeClass"
-                          style="height: 70px">
+                          style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px">
                     <q-item-section avatar>
                       <q-icon :name="menuItem.icon"
-                              style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 12px; color: white !important;"></q-icon>
+                              style="font-size: 18px; color: white !important;"></q-icon>
                     </q-item-section>
                     <q-item-section
-                        style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-left: 45px; margin-top: 12px">
+                        style="font-size: 14px; color: #fff;">
                       {{ menuItem.label }}
                     </q-item-section>
                   </q-item>
@@ -137,9 +137,9 @@
 
     </div>
     <div class="forContent z-max" id="forContent">
-      <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important; margin-top: -20px"
+      <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important;"
                 class="shadow-2 rounded-borders">
-        <q-page-container style="margin-top: 20px">
+        <q-page-container>
 
           <router-view/>
         </q-page-container>
@@ -219,8 +219,6 @@ export default {
   },
   mounted() {
     document.getElementById('toggler').checked = true
-    const fc = document.getElementById('forContent')
-    fc.style.paddingLeft = '301px'
   },
   methods: {
     mainPage() {
@@ -557,13 +555,14 @@ input[type='checkbox'] {
   display: block;
   min-height: 100vh;
   height: 100%;
-  /*width: 300px;*/
-  width: 17.7%;
+  width: 250px;
+  /* width: 17.7%; */
 
 }
 
 .forContent {
-  padding-left: 55px;
+  padding-left: 260px;
+  padding-top: 10px;
 }
 
 /*.forContent > .mapboxgl-control-container >  maplibregl-ctrl-top-left {*/
@@ -593,7 +592,7 @@ div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left {
 }
 
 .toolbarSpace {
-  margin-top: 0px;
+  margin-bottom: 0px;
 }
 
 </style>
