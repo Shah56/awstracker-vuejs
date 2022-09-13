@@ -88,14 +88,14 @@
               :mini="miniState"
               @mouseover="mouseOver()"
               @mouseout="mouseOut()"
-              content-class="bg-grey-3" class="sideBarDrawer"
+              content-class="bg-grey-3" class="sideBarDrawer" style="padding-right: 20px!important;"
           >
             <q-scroll-area class="fit" style="background-color: #181414 !important; border-color: #181414 !important;">
 
               <q-list padding>
 
                 <template>
-                  <q-item v-ripple style="margin-left: 15px; cursor:pointer;">
+                  <q-item v-ripple style="margin-left: 15px; margin-top: -15px; height: 60px; cursor:pointer;">
                     <q-item-section avatar>
                       <img src="../assets/TS.png" alt="" style="width: 30px; height: 30px;"/>
                     </q-item-section>
@@ -110,13 +110,15 @@
                 </template>
 
                 <template v-for="(menuItem, index) in menuList">
-                  <q-item :key="index" clickable :active="menuItem.label === 'Home'" v-ripple
-                          @click="itemClicked(menuItem.label)" style="height: 70px">
+                  <q-item :key="index" clickable v-ripple
+                          @click="itemClicked(menuItem)" :active="menuItem.check === true" active-class="activeClass"
+                          style="height: 70px">
                     <q-item-section avatar>
                       <q-icon :name="menuItem.icon"
                               style="font-size: 25px; margin-right: 35px; margin-bottom: 10px;margin-left: 10px;margin-top: 12px; color: white !important;"></q-icon>
                     </q-item-section>
-                    <q-item-section style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-left: 45px; margin-top: 12px">
+                    <q-item-section
+                        style="font-size: 18px; color: #fff; margin-bottom: 10px; margin-left: 45px; margin-top: 12px">
                       {{ menuItem.label }}
                     </q-item-section>
                   </q-item>
@@ -127,10 +129,10 @@
             </q-scroll-area>
           </q-drawer>
         </q-header>
-<!--        <q-page-container style="margin-top: 0px">-->
+        <!--        <q-page-container style="margin-top: 0px">-->
 
-<!--          <router-view/>-->
-<!--        </q-page-container>-->
+        <!--          <router-view/>-->
+        <!--        </q-page-container>-->
       </q-layout>
 
     </div>
@@ -171,17 +173,20 @@ export default {
         {
           icon: 'home',
           label: 'Home',
-          separator: false
+          separator: false,
+          check: true,
         },
         {
           icon: 'person_add',
           label: 'Drone',
-          separator: false
+          separator: false,
+          check: false,
         },
         {
           icon: 'local_shipping',
           label: 'Track',
-          separator: false
+          separator: false,
+          check: false
         },
       ],
       drawer: false,
@@ -208,7 +213,8 @@ export default {
     return {
       drawerLeft: ref(false),
       drawerRight: ref(false),
-      miniState: ref(false)
+      miniState: ref(false),
+      link: ref('home')
     }
   },
   mounted() {
@@ -256,14 +262,33 @@ export default {
         this.checkState = false
       }
     },
-    itemClicked(item) {
-      if (item === 'Home') {
+    itemClicked(val) {
+      if (val.label === 'Home') {
         this.$router.push('/')
-      } else if (item === 'Drone') {
+      } else if (val.label === 'Drone') {
         this.launchFleet()
-      } else if (item === 'Track') {
+      } else if (val.label === 'Track') {
         console.log('Track')
       }
+      let arr = [...this.menuList]
+      arr.map((item) => {
+        if (item.label === val.label) {
+          item.check = true
+        } else {
+          item.check = false
+        }
+      })
+      console.log(arr, "array")
+      this.menuList = arr
+      //   newLetters.map((record) => {
+      //   if (record.letter === letter) {
+      //     record.isActive = true;
+      //   } else {
+      //     record.isActive = false;
+      //   }
+      // });
+      // setLetters(newLetters);
+
     },
     drawers() {
       this.drawer = !this.drawer
@@ -336,6 +361,20 @@ export default {
   min-height: 60px;
 }
 
+div#forSideBar .activeClass[data-v-c6c5ef5c] {
+  background: linear-gradient(98deg, #c48eff, #9155fd 94%);
+  color: black;
+  border-bottom-right-radius: 29px;
+  border-top-right-radius: 29px;
+  transform: translate(-15px, 5px);
+  padding-left: 32px;
+
+}
+
+div#forSideBar .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link {
+  margin-left: -10px;
+}
+
 #profile {
   height: 130px;
   background-color: #808080;
@@ -352,6 +391,10 @@ export default {
 
 .fixed-bottom {
   margin-bottom: 1%;
+}
+
+.activeClass {
+  background-color: #C10015;
 }
 
 .fixed-bottom a img {
@@ -507,21 +550,22 @@ input[type='checkbox'] {
 /*for side bar fix css */
 
 .forSideBar {
-    position: absolute;
-    top: 52px;
-    left: 0px;
-    z-index: 9999999999999;
-    display: block;
-    min-height: 100vh;
-    height: 100%;
-    /*width: 300px;*/
-      width: 17.7%;
+  position: absolute;
+  top: 52px;
+  left: 0px;
+  z-index: 9999999999999;
+  display: block;
+  min-height: 100vh;
+  height: 100%;
+  /*width: 300px;*/
+  width: 17.7%;
 
 }
 
 .forContent {
-    padding-left: 55px;
+  padding-left: 55px;
 }
+
 /*.forContent > .mapboxgl-control-container >  maplibregl-ctrl-top-left {*/
 /*    top: 45px;*/
 /*    left: 0;*/
@@ -535,16 +579,28 @@ input[type='checkbox'] {
 /*    left: unset;*/
 
 /*}*/
-div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left{
+div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left {
   top: 45px !important;
-    left: 0 !important;
-    right: 10px !important;
-    left: unset !important;
+  left: 0 !important;
+  right: 10px !important;
+  left: unset !important;
 
 }
 
-.toolbarSpace{
+.menuLink {
+  color: white;
+  background: #F2C037
+}
+
+.toolbarSpace {
   margin-top: 0px;
 }
 
+</style>
+
+<style lang="sass">
+.my-menu-link
+  color: white
+  background: #F2C037
+  border-radius: 30%
 </style>
