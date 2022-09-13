@@ -99,12 +99,12 @@
             async pointOnCircle(lng,lat,deviceId,sampleTime) {
                 let name = deviceId
                 let vm = this
-                let color = "#007cbf"
+                let color = "#ff0000"
                 console.log("called point on circle with info: " + lng + lat + deviceId + sampleTime)
                 //if (this.map.getLayer(name)) this.map.removeLayer(name);
                 //if (this.map.getSource(name)) this.map.removeSource(name);
                 console.log("calling add source")
-                vm.map.on('load', name, function () {
+                vm.map.on('load', function () {
                     vm.map.addSource(name, {
                     type: 'geojson',
                     data: {
@@ -118,20 +118,20 @@
                 // Add red if timeDiff is X
                 //if (mm >= 10) color = '#ff0000'
                 console.log("calling add layer")
-                vm.map.on('load', name, function () {
+                vm.map.on('load', function () {
                     vm.map.addLayer({
                     'id': name,
                     'source': name,
                     'type': 'circle',
                     'paint': {
-                    'circle-radius': 10,
+                    'circle-radius': 12,
                     'circle-color': color
                     }
                     });   
                 });
                    
 
-                vm.map.on('click', name, function () {
+                vm.map.on('click',  function () {
                     vm.popUps[name]
                     .setLngLat([lng,lat])
                     .setHTML(deviceId + " - " + sampleTime)
@@ -139,12 +139,12 @@
                 });
 
                 // Change the cursor to a pointer when the mouse is over the states layer.
-                vm.map.on('mouseenter', name, function () {
+                vm.map.on('mouseenter',  function () {
                     vm.map.getCanvas().style.cursor = 'pointer';
                 });
                 
                 // Change it back to a pointer when it leaves.
-                vm.map.on('mouseleave', name, function () {
+                vm.map.on('mouseleave',  function () {
                     vm.map.getCanvas().style.cursor = '';
                 });
 
