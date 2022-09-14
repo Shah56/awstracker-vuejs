@@ -77,9 +77,9 @@
     </q-toolbar>
     <!--  For Side Bar -->
     <div class="forSideBar" id="forSideBar">
-      <q-layout view="lHh Lpr lff" container style="height: 896px; border-color: ##171717 !important; margin-top: -55px"
+      <q-layout view="lHh Lpr lff" container style="height: 896px; border-color: #171717 !important; margin-top: -55px"
                 class=" rounded-borders">
-        <q-header elevated class="bg-black" style="border-color: ##171717 !important;">
+        <q-header elevated class="bg-black" style="border-color: #171717 !important;">
           <q-drawer
               v-model="drawer"
               show-if-above
@@ -112,7 +112,7 @@
                 <template v-for="(menuItem, index) in menuList">
                   <q-item :key="index" clickable v-ripple
                           @click="itemClicked(menuItem)" :active="menuItem.check === true" active-class="activeClass"
-                          style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px">
+                          style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px;">
                     <q-item-section avatar>
                       <q-icon :name="menuItem.icon"
                               style="font-size: 18px; color: white !important;"></q-icon>
@@ -359,15 +359,15 @@ export default {
   min-height: 60px;
 }
 
-div#forSideBar .activeClass[data-v-c6c5ef5c] {
-  background: linear-gradient(98deg, #c48eff, #9155fd 94%);
-  color: black;
-  border-bottom-right-radius: 29px;
-  border-top-right-radius: 29px;
-  transform: translate(-15px, 5px);
-  padding-left: 32px;
+/*div#forSideBar .activeClass[data-v-c6c5ef5c] {*/
+/*  background: linear-gradient(98deg, #c48eff, #9155fd 94%);*/
+/*  color: black;*/
+/*  border-bottom-right-radius: 29px;*/
+/*  border-top-right-radius: 29px;*/
+/*  transform: translate(-15px, 5px);*/
+/*  padding-left: 32px;*/
 
-}
+/*}*/
 
 div#forSideBar .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link {
   margin-left: -10px;
@@ -392,7 +392,12 @@ div#forSideBar .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link {
 }
 
 .activeClass {
-  background-color: #C10015;
+  background: linear-gradient(98deg, #c48eff, #9155fd 94%);
+  color: black;
+  border-bottom-right-radius: 29px;
+  border-top-right-radius: 29px;
+  transform: translate(-15px, 5px);
+  padding-left: 32px;
 }
 
 .fixed-bottom a img {
