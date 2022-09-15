@@ -405,6 +405,10 @@ div#forSideBar .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link {
   height: 25px;
 }
 
+aside.q-drawer.q-drawer--left.q-drawer--standard.fixed.q-drawer--top-padding {
+    width: 226px !important;
+}
+
 #menu-collapse {
   margin-top: 5%;
 }
