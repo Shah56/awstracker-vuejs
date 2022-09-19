@@ -102,26 +102,52 @@
                     <q-item-section style="font-size: 16px; color: #fff;">
                       Stealth Connect
                     </q-item-section>
-                    <!-- <q-item-section style="float: right;">
-                      <input type="checkbox" id="toggler" @change="stateDrawerManage()"/>
-                      <span class="checkmark"></span>
-                    </q-item-section> -->
                   </q-item>
                 </template>
 
                 <template v-for="(menuItem, index) in menuList">
-                  <q-item :key="index" clickable v-ripple
-                          @click="itemClicked(menuItem)" :active="menuItem.check === true" active-class="activeClass"
-                          style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px;">
-                    <q-item-section avatar>
-                      <q-icon :name="menuItem.icon"
-                              style="font-size: 18px; color: white !important;"></q-icon>
-                    </q-item-section>
-                    <q-item-section
-                        style="font-size: 14px; color: #fff;">
-                      {{ menuItem.label }}
-                    </q-item-section>
-                  </q-item>
+                  <q-list :key="index">
+                    <q-expansion-item v-if="menuItem.children" clickable v-ripple :label="menuItem.label"
+                                      :icon="menuItem.icon"
+                                      :id="menuItem.label"
+                                      expand-separator
+                                      @click="expandClick(menuItem)" :active="menuItem.check === true"
+                                      active-class="activeClass"
+                                      style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px;">
+
+                      <template v-for="(child, indexChild) in menuItem.children">
+                        <q-item :key="indexChild" clickable v-ripple :label="child.label" active-class="activeClass"
+                                style="padding-left: 50px;">
+                          <q-item-section avatar>
+                            <q-icon :name="child.icon"
+                                    style="font-size: 18px; color: white !important;"></q-icon>
+                          </q-item-section>
+                          <q-item-section
+                              style="font-size: 14px; color: #fff;">
+                            {{ child.label }}
+                          </q-item-section>
+                        </q-item>
+                      </template>
+
+                    </q-expansion-item>
+
+
+                    <q-item :key="index" v-else clickable v-ripple :label="menuItem.label"
+                            :icon="menuItem.icon"
+                            @click="itemClicked(menuItem)" :active="menuItem.check === true"
+                            active-class="activeClass"
+                            style="height: 50px; margin-bottom:10px; margin-top:10px; margin-left:5px;">
+                      <q-item-section avatar>
+                        <q-icon :name="menuItem.icon"
+                                style="font-size: 18px; color: white !important;"></q-icon>
+                      </q-item-section>
+                      <q-item-section
+                          style="font-size: 14px; color: #fff;">
+                        {{ menuItem.label }}
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+
                   <q-separator :key="'sep' + index" v-if="menuItem.separator"></q-separator>
                 </template>
 
@@ -129,15 +155,11 @@
             </q-scroll-area>
           </q-drawer>
         </q-header>
-        <!--        <q-page-container style="margin-top: 0px">-->
-
-        <!--          <router-view/>-->
-        <!--        </q-page-container>-->
       </q-layout>
 
     </div>
     <div class="forContent z-max" id="forContent">
-      <q-layout view="lHh Lpr lff" container style="height: 850px; border-color: #181414 !important;"
+      <q-layout view="lHh Lpr lff" container style="width: 100%;height: 850px; border-color: #181414 !important;"
                 class="shadow-2 rounded-borders">
         <q-page-container>
 
@@ -151,18 +173,16 @@
 </template>
 
 <script>
-import {mapState, mapGetters} from "vuex";
+import {mapGetters, mapState} from "vuex";
 import {Auth} from "aws-amplify";
 import {ref} from 'vue'
 import logo2 from '../assets/logo2.png'
-// import leftDrawer from "@/components/LeftDrawer";
 
 export default {
   name: "default-layout",
   components: {
-    // leftDrawer
     // eslint-disable-next-line vue/no-unused-components
-    logo2
+    logo2,
   },
 
   data() {
@@ -171,23 +191,100 @@ export default {
       checkState: true,
       menuList: [
         {
-          icon: 'home',
-          label: 'Home',
+          icon: 'dashboard',
+          label: 'Dashboard',
           separator: false,
           check: true,
         },
         {
-          icon: 'person_add',
-          label: 'Drone',
+          icon: 'directions_car',
+          label: 'Vehicles',
+          separator: false,
+          check: false,
+          children: [
+            {
+              icon: 'my_location',
+              label: 'Tracking',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'map',
+              label: 'Geo Fencing',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'warning',
+              label: 'Alerts',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'battery_charging_full',
+              label: 'Battery Status',
+              separator: false,
+              check: false,
+            },
+          ]
+        },
+        {
+          icon: 'construction',
+          label: 'Equipment',
+          separator: false,
+          check: false,
+          children: [
+            {
+              icon: 'my_location',
+              label: 'Tracking',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'map',
+              label: 'Geo Fencing',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'warning',
+              label: 'Alerts',
+              separator: false,
+              check: false,
+            },
+            {
+              icon: 'battery_charging_full',
+              label: 'Battery Status',
+              separator: false,
+              check: false,
+            },
+          ]
+        },
+        {
+          icon: 'gps_fixed',
+          label: 'Drone Tracking',
           separator: false,
           check: false,
         },
         {
-          icon: 'local_shipping',
-          label: 'Track',
+          icon: 'report',
+          label: 'Reporting',
           separator: false,
-          check: false
+          check: false,
         },
+        {
+          icon: 'integration_instructions',
+          label: 'Integrations',
+          separator: false,
+          check: false,
+        },
+        {
+          icon: 'help',
+          label: 'Help',
+          separator: false,
+          check: false,
+        },
+
       ],
       drawer: false,
       menuItems: [
@@ -225,30 +322,50 @@ export default {
       this.$router.push('/')
     },
     mouseOver() {
-      const fc = document.getElementById('forContent')
-      fc.style.paddingLeft = '301px'
-      if (this.miniState === false && this.checkState === true) {
-        this.miniState = false
-      } else if (this.miniState === true && this.checkState === false) {
-        this.miniState = false
-      }
+      // const fc = document.getElementById('forContent')
+      // fc.style.paddingLeft = '301px'
+      // if (this.miniState === false && this.checkState === true) {
+      //   this.miniState = false
+      // } else if (this.miniState === true && this.checkState === false) {
+      //   this.miniState = false
+      // }
     },
     mouseOut() {
-      const fc = document.getElementById('forContent')
-      const sb = document.getElementById('forSideBar')
-      if (this.checkState === true) {
-        this.miniState = false
-        fc.style.paddingLeft = '301px'
-        sb.style.width = '17.7%'
-      } else if (this.checkState === false && this.miniState === false) {
-        this.miniState = true
-        fc.style.paddingLeft = '55px'
-        sb.style.width = '17.7%'
-      } else {
-        fc.style.paddingLeft = '55px'
-        sb.style.width = '3.7%'
-      }
+      // const fc = document.getElementById('forContent')
+      // const sb = document.getElementById('forSideBar')
+      // if (this.checkState === true) {
+      //   this.miniState = false
+      //   fc.style.paddingLeft = '301px'
+      //   sb.style.width = '17.7%'
+      // } else if (this.checkState === false && this.miniState === false) {
+      //   this.miniState = true
+      //   fc.style.paddingLeft = '55px'
+      //   sb.style.width = '17.7%'
+      // } else {
+      //   fc.style.paddingLeft = '55px'
+      //   sb.style.width = '3.7%'
+      // }
     },
+
+    expandClick(itemExpand) {
+      if (itemExpand.label === 'Vehicles') {
+        let expand = document.getElementById('Vehicles')
+        if (expand.style.marginBottom === '200px') {
+          expand.style.marginBottom = '0px'
+        } else {
+          expand.style.marginBottom = '200px'
+        }
+      } else if (itemExpand.label === 'Equipment') {
+        let expand = document.getElementById('Equipment')
+        if (expand.style.marginBottom === '200px') {
+          expand.style.marginBottom = '0px'
+        } else {
+          expand.style.marginBottom = '200px'
+        }
+      }
+
+    },
+
     stateDrawerManage() {
       var elm = document.getElementById('toggler');
       // elm.checked = !elm.checked;
@@ -276,16 +393,7 @@ export default {
           item.check = false
         }
       })
-      console.log(arr, "array")
       this.menuList = arr
-      //   newLetters.map((record) => {
-      //   if (record.letter === letter) {
-      //     record.isActive = true;
-      //   } else {
-      //     record.isActive = false;
-      //   }
-      // });
-      // setLetters(newLetters);
 
     },
     drawers() {
@@ -314,7 +422,6 @@ export default {
         }
       };
 
-      console.log(url + "launch_fleet")
       let results = await this.$http.post(url + "launch_fleet", {}, options);
 
       if (results.status === 200) {
@@ -406,7 +513,7 @@ div#forSideBar .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link {
 }
 
 aside.q-drawer.q-drawer--left.q-drawer--standard.fixed.q-drawer--top-padding {
-    width: 226px !important;
+  width: 226px !important;
 }
 
 #menu-collapse {
@@ -603,6 +710,83 @@ div#markmap .mapboxgl-control-container .mapboxgl-ctrl-top-left {
 .toolbarSpace {
   margin-bottom: 0px;
 }
+
+@media (max-width: 992px) {
+  .forSideBar {
+    width: 200px;
+  }
+
+  .forSideBar .q-item {
+    min-height: 45px;
+    /*padding: 8px 10px;*/
+
+  }
+
+  .forSideBar aside {
+    width: 100% !important;
+
+  }
+
+  .q-item.q-item-type.row.no-wrap.q-item--clickable.q-link.q-item--active.activeClass {
+    width: 180px;
+    margin-left: 0px !important;
+    padding-left: 10px !important;
+  }
+
+  .q-item.q-item-type.row.q-item--active.activeClass {
+    height: 40px !important;
+  }
+
+  .activeClass {
+
+    transform: translate(2px, 5px);
+
+  }
+
+
+  div#forContent {
+    padding-left: 215px !important;
+  }
+
+  div#forContent .q-layout-container {
+    width: 98% !important;
+  }
+
+  .forSideBar .q-item__section--side > .q-icon {
+    font-size: 22px;
+  }
+
+  .forSideBar .q-item__section--main ~ .q-item__section--side {
+
+    transform: translate(-45px, 0px);
+  }
+
+  .forSideBar .q-expansion-item__container .q-item {
+
+    padding: 8px 5px !important;
+
+  }
+
+  .q-item.q-item-type.row.no-wrap.q-item--clickable {
+    padding: 0 5px;
+  }
+
+  .q-item__section.column.q-focusable.q-item__section--side {
+    transform: translate(-60px, 0px);
+  }
+
+  .q-item {
+
+    padding: 8px 5px;
+
+  }
+
+  .forSideBar .q-list--padding {
+
+    width: 80%;
+  }
+}
+
 
 </style>
 

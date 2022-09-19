@@ -27,7 +27,8 @@ import {
   QHeader,
   QCardSection,
   QCardActions,
-  QIcon
+  QIcon,
+    QExpansionItem
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -46,6 +47,7 @@ Vue.use(Quasar, {
     QBtn,
     QForm,
     QInput,
+    QExpansionItem,
     QSpace,
     QSeparator,
     QCardSection,
