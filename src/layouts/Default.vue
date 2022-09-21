@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-toolbar class="bg-primary text-white toolbarSpace" style="background-color: #3b2366 !important; height: 60px;">
+    <q-toolbar class="bg-primary text-white toolbarSpace" style="background-color: #fff !important; height: 60px;">
 
       <!--      <q-btn flat @click="drawers()" round dense icon="menu"/>-->
 
@@ -42,7 +42,7 @@
       <q-separator/>
 
       <q-btn-dropdown
-          flat style="float: left">
+          flat style="float: left; background-color: #171717 !important; color: white">
         <template v-slot:label>
           <div class="row items-center no-wrap">
             <q-icon left name="person"/>
@@ -52,24 +52,47 @@
           </div>
         </template>
         <q-list>
+
+          <q-item style="background-color: grey !important; color: #fff">
+            <q-item-section avatar>
+              <q-icon left name="account_circle" style="font-size: 45px"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label style="font-weight: 600">{{fullName}}</q-item-label>
+              <q-item-label>{{userEmail}}</q-item-label>
+            </q-item-section>
+          </q-item>
+
+          <q-separator></q-separator>
+
           <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
-            <q-item-section @click="profileClick()">
+            <q-item-section avatar>
               <q-icon left name="person"/>
+            </q-item-section>
+            <q-item-section @click="profileClick()">
               <q-item-label>Profile</q-item-label>
             </q-item-section>
           </q-item>
 
+          <q-separator></q-separator>
+
           <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
-            <q-item-section>
+            <q-item-section avatar>
               <q-icon left name="settings"/>
+            </q-item-section>
+            <q-item-section>
               <q-item-label>Settings</q-item-label>
             </q-item-section>
           </q-item>
 
+          <q-separator></q-separator>
+
           <q-item clickable v-close-popup @click="signOut()" style="background-color: grey !important; color: #fff">
             <q-item-section>
-              <q-icon left name="exit_to_app"/>
-              <q-item-label>Logout</q-item-label>
+              <q-icon left name="exit_to_app" style="font-size: 30px"/>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label style="margin-left: -65px">Logout</q-item-label>
             </q-item-section>
           </q-item>
         </q-list>
@@ -457,6 +480,9 @@ export default {
     fullName() {
       return `${this.firstName} ${this.lastName}`;
     },
+    userEmail(){
+      return `${this.email}`;
+    }
   },
 };
 </script>
