@@ -42,7 +42,7 @@
       <q-separator/>
 
       <q-btn-dropdown
-          flat style="float: left; background-color: #171717 !important; color: white">
+          flat style="float: left; background-color: white !important; color: black">
         <template v-slot:label>
           <div class="row items-center no-wrap">
             <q-icon left name="person"/>
@@ -53,19 +53,19 @@
         </template>
         <q-list>
 
-          <q-item style="background-color: grey !important; color: #fff">
+          <q-item style="background-color: white !important; color: black">
             <q-item-section avatar>
               <q-icon left name="account_circle" style="font-size: 45px"/>
             </q-item-section>
             <q-item-section>
-              <q-item-label style="font-weight: 600">{{fullName}}</q-item-label>
-              <q-item-label>{{userEmail}}</q-item-label>
+              <q-item-label style="font-weight: 600">{{ fullName }}</q-item-label>
+              <q-item-label>{{ userEmail }}</q-item-label>
             </q-item-section>
           </q-item>
 
-          <q-separator></q-separator>
+          <q-separator color="grey"></q-separator>
 
-          <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
+          <q-item clickable v-close-popup style="background-color: white !important; color: black">
             <q-item-section avatar>
               <q-icon left name="person"/>
             </q-item-section>
@@ -74,9 +74,9 @@
             </q-item-section>
           </q-item>
 
-          <q-separator></q-separator>
+          <q-separator color="grey"></q-separator>
 
-          <q-item clickable v-close-popup style="background-color: grey !important; color: #fff">
+          <q-item clickable v-close-popup style="background-color: white !important; color: black">
             <q-item-section avatar>
               <q-icon left name="settings"/>
             </q-item-section>
@@ -85,9 +85,9 @@
             </q-item-section>
           </q-item>
 
-          <q-separator></q-separator>
+          <q-separator color="grey"></q-separator>
 
-          <q-item clickable v-close-popup @click="signOut()" style="background-color: grey !important; color: #fff">
+          <q-item clickable v-close-popup @click="signOut()" style="background-color: white !important; color: black">
             <q-item-section>
               <q-icon left name="exit_to_app" style="font-size: 30px"/>
             </q-item-section>
@@ -140,7 +140,7 @@
 
                       <template v-for="(child, indexChild) in menuItem.children">
                         <q-item :key="indexChild" clickable v-ripple :label="child.label" active-class="activeClass"
-                                style="padding-left: 50px;">
+                                :active="child.check === true" style="padding-left: 50px;" @click="itemClicked(child)">
                           <q-item-section avatar>
                             <q-icon :name="child.icon"
                                     style="font-size: 18px; color: white !important;"></q-icon>
@@ -182,7 +182,8 @@
 
     </div>
     <div class="forContent z-max" id="forContent">
-      <q-layout view="lHh Lpr lff" container style="width: 100%;height: 850px; border-color: #181414 !important;"
+      <q-layout view="lHh Lpr lff" container
+                style="width: 100%;height: 850px; border-color: #181414 !important; margin-top: 20px"
                 class="shadow-2 rounded-borders">
         <q-page-container>
 
@@ -223,27 +224,32 @@ export default {
           icon: 'directions_car',
           label: 'Vehicles',
           separator: false,
+          id: 'vehicles',
           check: false,
           children: [
             {
+              id: 'tracking1',
               icon: 'my_location',
               label: 'Tracking',
               separator: false,
               check: false,
             },
             {
+              id: 'fencing1',
               icon: 'map',
               label: 'Geo Fencing',
               separator: false,
               check: false,
             },
             {
+              id: 'alerts1',
               icon: 'warning',
               label: 'Alerts',
               separator: false,
               check: false,
             },
             {
+              id: 'battery1',
               icon: 'battery_charging_full',
               label: 'Battery Status',
               separator: false,
@@ -255,27 +261,32 @@ export default {
           icon: 'construction',
           label: 'Equipment',
           separator: false,
+          id: 'equipment',
           check: false,
           children: [
             {
+              id: 'tracking2',
               icon: 'my_location',
               label: 'Tracking',
               separator: false,
               check: false,
             },
             {
+              id: 'fencing2',
               icon: 'map',
               label: 'Geo Fencing',
               separator: false,
               check: false,
             },
             {
+              id: 'alerts2',
               icon: 'warning',
               label: 'Alerts',
               separator: false,
               check: false,
             },
             {
+              id: 'battery2',
               icon: 'battery_charging_full',
               label: 'Battery Status',
               separator: false,
@@ -410,8 +421,18 @@ export default {
       }
       let arr = [...this.menuList]
       arr.map((item) => {
+
         if (item.label === val.label) {
           item.check = true
+          // eslint-disable-next-line no-dupe-else-if
+        } else if (item.children) {
+          item.children.map((subItem) => {
+            if (subItem.label === val.label && subItem.id === val.id) {
+              subItem.check = true
+            } else {
+              subItem.check = false
+            }
+          })
         } else {
           item.check = false
         }
@@ -480,7 +501,7 @@ export default {
     fullName() {
       return `${this.firstName} ${this.lastName}`;
     },
-    userEmail(){
+    userEmail() {
       return `${this.email}`;
     }
   },
