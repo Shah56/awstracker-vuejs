@@ -1,27 +1,42 @@
 <template>
-  <div class="column justify-center q-pa-lg forPadding" style="background-color: #181414">
+  <div class="column justify-center q-pa-lg forPadding"
+       style="background-color: #40444f; width: 100%; position:fixed !important;">
     <!-- <q-card square class="shadow-24" style="width:300px;height:485px;"> -->
     <div class="stealthMain">
       <div class="stealthLeft">
         <h2 class="stealthHeading">STEALTH CONNECT</h2>
         <h5 style="font-family: 'arial'; margin-top: 10px; font-size: 1.75rem; color: white">Cyber Security Portal</h5>
-        <p style="font-size: 1.25rem; color: white">Introducing TOM SHAW’s latest creation: Stealth Connect. <br/> A
-          two-part cyber-security world-first protecting
-          governments <br/> and enterprises from the end point to the board room.</p>
+        <p style="font-size: 1.25rem; color: white">Introducing TOM SHAW’s latest creation: Stealth Connect. A
+          two-part cyber-security <br/> world-first protecting
+          governments and <br/> enterprises from the end point to the board room.</p>
+      </div>
+      <div class="stealthMiddle">
+        <img src="https://noble1webapp.s3.ap-southeast-2.amazonaws.com/img/center-bg.png" alt="midImage"
+             class="backImage"/>
+        <div class="learnMoreSignIn">
+          <div class="innerCircle">
+            <p style="margin-top: -15px;">Learn More</p>
+          </div>
+        </div>
       </div>
       <div class="stealthRight">
         <q-card-section style="margin-bottom: 20px">
           <h4 class="text-h4 text-center q-my-sm" style="color: white">Login Your Account</h4>
         </q-card-section>
 
-        <q-card square class="shadow-24" style="width:100%;padding: 50px 30px; background-color: #181414 !important;">
+        <q-card square class="shadow-24" style="width:100%;padding: 50px 20px; background-color: #40444f !important;">
 
           <q-card-section>
             <q-form>
               <q-input
-                  square outlined
+                  class="firstInput"
+                  input-style="padding-left:10px;"
+                  outlined
                   color="white"
                   dark
+                  standout
+                  input-class="q-pl-sm"
+                  v-model="form.username"
                   label-color="grey"
                   bg-color="transparent"
                   v-model.trim="form.username"
@@ -31,7 +46,7 @@
                   :error="$v.form.username.$error"
               >
                 <template v-slot:prepend>
-                  <q-icon name="email" style="color: white"/>
+                  <q-icon name="email" style="color: white;"/>
                 </template>
                 <template v-slot:append>
                   <q-icon name="cancel" @click.stop.prevent="form.username = null" class="cursor-pointer"
@@ -39,11 +54,11 @@
                 </template>
               </q-input>
               <q-input
-                  square outlined
+                  outlined
                   color="white"
+                  input-style="padding-left:10px;"
                   dark
                   label-color='grey'
-                  standout
                   bottom-slots
                   bg-color="transparent"
                   v-model="form.password"
@@ -60,9 +75,6 @@
                 <template v-slot:append>
                   <q-icon name="cancel" @click.stop.prevent="form.password = null" class="cursor-pointer"
                           style="color: white"/>
-                </template>
-                <template v-slot:hint>
-                  Email
                 </template>
               </q-input>
             </q-form>
@@ -100,7 +112,7 @@
 <script>
 import {Auth} from "aws-amplify";
 import {AmplifyEventBus} from "aws-amplify-vue";
-import {required, email} from 'vuelidate/lib/validators';
+import {email, required} from 'vuelidate/lib/validators';
 import {ref} from "vue";
 
 export default {
@@ -162,7 +174,7 @@ export default {
 </script>
 <style scoped>
 .forPadding {
-  padding: 120px 120px;
+  padding: 0 120px 100px;
 }
 
 .stealthMain {
@@ -173,7 +185,13 @@ export default {
 }
 
 .stealthLeft {
-  width: 50%;
+  width: 40%;
+  padding-top: 120px;
+}
+
+.stealthMiddle {
+  width: 30%;
+  position: relative;
 }
 
 .inputText {
@@ -181,7 +199,9 @@ export default {
 }
 
 .stealthRight {
-  width: 35%;
+  width: 40%;
+  /*margin-top: -70px;*/
+  padding-top: 120px;
 }
 
 .signUp {
@@ -203,4 +223,76 @@ export default {
   font-weight: 500;
   color: white
 }
+
+.learnMoreSignIn {
+  display: inline-block;
+  /* margin-top: -681px; */
+  /* margin-right: 80px; */
+  border-radius: 50%;
+  /* padding: 65px; */
+  color: white;
+  border: 1px solid white;
+  font-size: 35px;
+  background-color: #40444f;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-62%, -29%);
+  height: 255px;
+  width: 255px;
+  text-align: center;
+  padding-top: 95px;
+}
+
+.innerCircle {
+  display: inline-block;
+  /* margin-top: -681px; */
+  /* margin-right: 80px; */
+  border-radius: 50%;
+  /* padding: 65px; */
+  color: white;
+  border: 10px solid grey;
+  font-size:25px;
+  background-color: #40444f;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  height: 211px;
+  width: 211px;
+  text-align: center;
+  padding-top: 95px;
+}
+
+
+.backImage {
+  width: 70%;
+  height: 110%;
+  margin-left: 20px;
+  /*margin-top: -120px*/
+}
+
+.q-btn .q-focus-helper {
+  display: none;
+}
+
+.q-field__control-container.col.relative-position.row.no-wrap.q-anchor--skip {
+  padding-left: 10px !important;
+  background-color: transparent !important;
+}
+
+.q-field__label.no-pointer-events.absolute.ellipsis.text-grey {
+  padding-left: 10px;
+}
+
+.firstInput q-input {
+  padding-left: 12px !important;
+}
+
+.q-field__before, .q-field__prepend {
+  /* padding-right: 12px; */
+  width: 35px;
+  background: red !important;
+}
+
 </style>
