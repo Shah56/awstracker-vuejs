@@ -4,11 +4,11 @@
     <!-- <q-card square class="shadow-24" style="width:300px;height:485px;"> -->
     <div class="stealthMain">
       <div class="stealthLeft">
-        <h2 class="stealthHeading">STEALTH CONNECT</h2>
-        <h5 style="font-family: 'arial'; margin-top: 10px; font-size: 1.75rem; color: white">Cyber Security Portal</h5>
-        <p style="font-size: 1.25rem; color: white">Introducing TOM SHAW’s latest creation: Stealth Connect. A
-          two-part cyber-security <br/> world-first protecting
-          governments and <br/> enterprises from the end point to the board room.</p>
+        <h2 class="stealthHeading" style="font-family: 'Roboto'">STEALTH CONNECT</h2>
+        <h5 style="font-family: 'arial'; margin-top: 10px; font-size: 1.75rem; color: white">Asset Management Tool</h5>
+        <p style="font-size: 1.25rem; color: white">Introducing TOM SHAW’s latest creation: Stealth Connect. A secure IOT solution 
+          designed to extract data from widely dispersed assets, empowering organisations to PREDICT behaviour, 
+          ANALYSE events and make well informed business decisions 24/7.</p>
       </div>
       <div class="stealthMiddle">
         <img src="https://noble1webapp.s3.ap-southeast-2.amazonaws.com/img/center-bg.png" alt="midImage"
@@ -21,7 +21,7 @@
       </div>
       <div class="stealthRight">
         <q-card-section style="margin-bottom: 20px">
-          <h4 class="text-h4 text-center q-my-sm" style="color: white">Login Your Account</h4>
+          <h4 class="text-h4 text-center q-my-sm" style="color: white">Login to your Account</h4>
         </q-card-section>
 
         <q-card square class="shadow-24" style="width:100%;padding: 50px 20px; background-color: #40444f !important;">
@@ -97,7 +97,7 @@
             >Sign Up</p>
           </q-card-actions>
           <q-card-section class="text-center q-pa-sm">
-            <q-btn flat size="sm" @click="forgotPassword" color="white" label="Forgot you password?"/>
+            <q-btn flat size="sm" @click="forgotPassword" color="white" label="Forgot your password ?"/>
             <!--            <q-separator/>-->
             <!--            <q-btn flat size="sm" @click="signUp" color="black" label="Don't have an account? Sign Up here!"/>-->
           </q-card-section>
