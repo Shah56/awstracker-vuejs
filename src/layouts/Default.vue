@@ -348,6 +348,22 @@ export default {
       link: ref('home')
     }
   },
+  created() {
+    console.log(window.location, "pathname")
+    if(window.location.hash === '#/reporting'){
+      console.log("aakkakka")
+    }
+    // if (val.label === 'Dashboard') {
+    //     this.$router.push('/')
+    //   } else if (val.label === 'Drone') {
+    //     this.launchFleet()
+    //   } else if (val.label === 'Track') {
+    //     console.log('Track')
+    //   } else if (val.label === 'Reporting') {
+    //     this.$router.push('/reporting')
+    //   }
+
+  },
   mounted() {
     document.getElementById('toggler').checked = true
   },
@@ -412,12 +428,14 @@ export default {
       }
     },
     itemClicked(val) {
-      if (val.label === 'Home') {
+      if (val.label === 'Dashboard') {
         this.$router.push('/')
       } else if (val.label === 'Drone') {
         this.launchFleet()
       } else if (val.label === 'Track') {
         console.log('Track')
+      } else if (val.label === 'Reporting') {
+        this.$router.push('/reporting')
       }
       let arr = [...this.menuList]
       arr.map((item) => {

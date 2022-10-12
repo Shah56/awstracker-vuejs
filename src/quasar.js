@@ -24,10 +24,12 @@ import {
   QItem,
   QItemSection,
   QList,
+    QImg,
   QHeader,
   QCardSection,
   QCardActions,
   QIcon,
+    QTable,
     QExpansionItem
 } from 'quasar'
 
@@ -45,7 +47,9 @@ Vue.use(Quasar, {
     QCard, 
     QPageContainer,
     QBtn,
+    QTable,
     QForm,
+    QImg,
     QInput,
     QExpansionItem,
     QSpace,

@@ -10,6 +10,7 @@ import Delivery from '../views/Delivery.vue'
 import SignIn from '../views/SignIn.vue'
 import SignUp from '../views/SignUp.vue'
 import ForgotPassword from '../views/ForgotPassword.vue'
+import Reporting from "@/views/Reporting";
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,11 @@ const router = new VueRouter({
         {
           path: "profile",
           component: Profile,
+          meta: {requiresAuth: true}
+        },
+        {
+          path: "reporting",
+          component: Reporting,
           meta: {requiresAuth: true}
         }
       ]
